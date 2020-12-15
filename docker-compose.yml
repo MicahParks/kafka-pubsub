@@ -1,0 +1,28 @@
+version: "3"
+services:
+  consumer:
+    container_name: "consumer"
+    build:
+      dockerfile: "Dockerfile"
+      context: "."
+  producer:
+    container_name: "producer"
+    build:
+      dockerfile: "Dockerfile"
+      context: "."
+  kafka:
+    container_name: "kafka"
+    depends_on:
+      - "zookeeper"
+    image: "wurstmeister/kafka"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: "kafka"
+      KAFKA_ADVERTISED_PORT: "9092"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+    ports:
+      - "9092:9092"
+  zookeeper:
+    container_name: "zookeeper"
+    image: "wurstmeister/zookeeper"
+    ports:
+      - "2181:2181"
