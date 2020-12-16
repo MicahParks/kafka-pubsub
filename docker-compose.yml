@@ -1,24 +1,34 @@
 version: "3"
 services:
-  consumer:
-    container_name: "consumer"
+  publisher:
     build:
-      dockerfile: "Dockerfile"
+      dockerfile: "publisher.Dockerfile"
       context: "."
-  producer:
-    container_name: "producer"
+    container_name: "publisher"
+    depends_on:
+      - "kafka"
+    environment:
+      KAFKA_HOST_PORT: "kafka:9092"
+      KAFKA_TOPIC: "celcius-readings"
+  subscriber:
     build:
-      dockerfile: "Dockerfile"
+      dockerfile: "subscriber.Dockerfile"
       context: "."
+    container_name: "subscriber"
+    depends_on:
+      - "kafka"
+    environment:
+      KAFKA_HOST_PORT: "kafka:9092"
+      KAFKA_TOPIC: "celcius-readings"
   kafka:
-    container_name: "kafka"
     depends_on:
       - "zookeeper"
-    image: "wurstmeister/kafka"
+    container_name: "kafka"
     environment:
       KAFKA_ADVERTISED_HOST_NAME: "kafka"
       KAFKA_ADVERTISED_PORT: "9092"
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+    image: "wurstmeister/kafka"
     ports:
       - "9092:9092"
   zookeeper:
