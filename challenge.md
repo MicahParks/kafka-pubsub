@@ -10,7 +10,6 @@ You are tasked to create a data pipeline using pub/sub. A microservice will publ
 
 ## Final Deliverable
 
-- A private github repo that read permissions granted to the following users: `barakstout`, `omnipresent07`, and `potto007`
 - The repo should have a good README explanation for us to get the project running locally and review the Tasks
 - We will run the project using `docker-compose up`.
 - If we need to run things in addition to `docker-compose up`, please list out what we should be running from the command line. 
